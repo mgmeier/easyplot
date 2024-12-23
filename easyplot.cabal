@@ -1,5 +1,5 @@
 Name:           easyplot
-Version:        1.0
+Version:        2.0
 Synopsis:       A tiny plotting library, utilizes gnuplot for plotting.
 Description:    A tiny plotting library for Haskell, using gnuplot for rendering.
                 .
@@ -23,14 +23,14 @@ Description:    A tiny plotting library for Haskell, using gnuplot for rendering
                 > plot X11 [ Data2D [Title "Graph 1", Color Red] [] [(x, x ** 3) | x <- [-4,-3.9..4]]
                 >          , Function2D [Title "Function 2", Color Blue] [] (\x -> negate $ x ** 2) ]
                 .
-                > plot' [Interactive] X11 $ Gnuplot3D [Color Magenta] [] "x ** 2 + y ** 3"
+                > plot' [Interactive] (mkTerminal X11) $ Gnuplot3D [Color Magenta] [] "x ** 2 + y ** 3"
 
 License:        MIT
 License-File:   LICENSE
 Author:         Julian Fleischer <julian.fleischer@fu-berlin.de>
 Maintainer:     Julian Fleischer <julian.fleischer@fu-berlin.de>
 Build-Type:     Simple
-Cabal-Version:  >= 1.6
+Cabal-Version:  >= 1.8
 Category:       Graphics, Math, Plotting
 Stability:      provisional
 Homepage:       http://hub.darcs.net/scravy/easyplot
@@ -48,7 +48,10 @@ Library
     Exposed-Modules:    Graphics.EasyPlot
                         
     Build-Depends:      base >= 4 && < 5,
+                        directory,
                         process
+
+    Ghc-Options:        -Wall -Wcompat
     Hs-Source-Dirs:     src
 
 
