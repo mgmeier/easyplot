@@ -61,8 +61,8 @@ module Graphics.EasyPlot (
 import Numeric (showHex)
 import Data.Char (toUpper)
 import Data.List (sortBy, nubBy)
-import System.Cmd (rawSystem)
 import System.Exit (ExitCode (ExitSuccess))
+import System.Process (rawSystem)
 
 -- | TerminalType determines where the output of gnuplot should go.
 data TerminalType = Aqua    -- ^ Output on Mac OS X (Aqua Terminal).
