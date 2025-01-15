@@ -30,7 +30,7 @@ License-File:   LICENSE
 Author:         Julian Fleischer <julian.fleischer@fu-berlin.de>
 Maintainer:     Julian Fleischer <julian.fleischer@fu-berlin.de>
 Build-Type:     Simple
-Cabal-Version:  >= 1.6
+Cabal-Version:  >= 1.8
 Category:       Graphics, Math, Plotting
 Stability:      provisional
 Homepage:       http://hub.darcs.net/scravy/easyplot
