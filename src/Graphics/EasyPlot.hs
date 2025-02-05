@@ -66,7 +66,7 @@ import Data.Functor ((<&>))
 import Data.List (sortBy)
 import Data.Maybe (fromMaybe)
 import Data.List.NonEmpty (groupBy, head)
-import System.Cmd (rawSystem)
+import System.Process (rawSystem)
 import System.Exit (ExitCode (ExitSuccess))
 
 -- | TerminalType determines where the output of gnuplot should go.
