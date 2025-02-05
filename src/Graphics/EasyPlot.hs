@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE FlexibleInstances, PatternGuards #-}
 
 -- | A simple wrapper to the gnuplot command line utility.
 --
@@ -305,11 +305,9 @@ opts (x:xs) = toString x ++ " " ++ opts xs
 --
 -- > exec ["set terminal x11 persist"] "splot" ["width lines", "with lines"] [Right "x*y", Right "sin(x) + cos(y)"]
 exec :: [GnuplotOption] -> [String] -> String -> [String] -> [Either String String] -> IO Bool
-exec options preamble plotfunc plotops datasets =
-    do
-        let filenames = zipWith (\x y -> x ++ show y ++ ".dat")
-                                (cycle ["plot"]) [1..length datasets]
-
+exec options preamble plotfunc plotops datasets
+  | filenames <- ["plot" ++ show n ++ ".dat" | n <- [1..length datasets]]
+  = do
         mapM (uncurry writeFile) (zip filenames (map (either id id) datasets))
 
         let datasources = zipWith (\x y -> either (const (Left x)) Right y) filenames datasets
