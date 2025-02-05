@@ -278,13 +278,13 @@ stepY (_ : ys) = stepY ys
 sanitize = map head . groupBy dup . sortBy ord
     where   ord a b
                 | dup a b = EQ
-                | True    = ord' a b
+                | otherwise = ord' a b
             ord' (Style _) (Title _) = LT
             ord' (Style _) (Color _) = LT
             ord' (Color _) (Title _) = GT
             ord' a b
                 | ord' b a == LT = GT
-                | True           = LT
+                | otherwise      = LT
             dup (Title _) (Title _) = True
             dup (Style _) (Style _) = True
             dup (Color _) (Color _) = True
