@@ -60,7 +60,7 @@ module Graphics.EasyPlot (
 
 import Prelude hiding (head)
 import Numeric (showHex)
-import Control.Monad (zipWithM_)
+import Control.Monad (when, zipWithM_)
 import Data.Char (toUpper)
 import Data.Functor ((<&>))
 import Data.List (sortBy)
@@ -326,7 +326,7 @@ exec options preamble plotfunc plotops datasets
         
             args = ["-e", plotcmd] ++ ["-" | Interactive `elem` options]
 
-        if Debug `elem` options then putStrLn plotcmd else return ()
+        when (Debug `elem` options) do putStrLn plotcmd
 
         exitCode <- rawSystem "gnuplot" args
 
