@@ -229,8 +229,8 @@ render2D opt opt2d f = (opts $ sanitize (opt ++ [Style Lines]), plot2D f)
 render3D opt opt3d f = (opts $ sanitize opt, plot3D f)
     where   plot3D f = toString [(x, y, f x y) | x <- xs, y <- ys]
 
-            xs = maybe [x1,sx..x2] id $ forX opt3d
-            ys = maybe [y1,sy..y2] id $ forY opt3d
+            xs = fromMaybe [x1,sx..x2] $ forX opt3d
+            ys = fromMaybe [y1,sy..y2] $ forY opt3d
 
             ((x1, x2), (y1, y2)) = (rangeX opt3d, rangeY opt3d)
             (sx, sy) = (x1 + stepX opt3d, y1 + stepY opt3d)
