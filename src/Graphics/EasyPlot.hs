@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, LambdaCase, PatternGuards #-}
+{-# LANGUAGE FlexibleInstances, LambdaCase, PatternGuards, ViewPatterns #-}
 
 -- | A simple wrapper to the gnuplot command line utility.
 --
@@ -375,7 +375,8 @@ instance GnuplotIdiom TerminalType where
         X11     -> "set term x11 persist"
 
 instance GnuplotIdiom Color where
-    toString (RGB r g b) = '#' : map toUpper (showHex r $ showHex g $ showHex b "")
+    toString (RGB (showHex -> r) (showHex -> g) (showHex -> b))
+      = ('#' :) . (toUpper <$>) . r . g . b $ ""
     toString color = case color of
         Red -> "red"
         Blue -> "blue"
