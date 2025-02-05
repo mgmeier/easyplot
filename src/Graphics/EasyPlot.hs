@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, IncoherentInstances #-}
+{-# LANGUAGE FlexibleInstances #-}
 
 -- | A simple wrapper to the gnuplot command line utility.
 --
@@ -191,11 +191,11 @@ instance (Fractional x, Enum x, Show x, Num y, Show y) => Plot [x -> y] where
     plot' options term fs = plot' options term $ map (Function2D [] []) fs
 
 -- | A 3D function can be plotted directly using 'plot'
-instance (Fractional x, Enum x, Show x, Fractional y, Enum y, Show y, Num z, Show z) => Plot (x -> y -> z) where
+instance {-# OVERLAPPING #-} (Fractional x, Enum x, Show x, Fractional y, Enum y, Show y, Num z, Show z) => Plot (x -> y -> z) where
     plot' options term f = plot' options term $ Function3D [] [] f
 
 -- | A list of 3D functions can be plotted directly using 'plot'
-instance (Fractional x, Enum x, Show x, Fractional y, Enum y, Show y, Num z, Show z) => Plot [x -> y -> z] where
+instance {-# OVERLAPPING #-} (Fractional x, Enum x, Show x, Fractional y, Enum y, Show y, Num z, Show z) => Plot [x -> y -> z] where
     plot' options term fs = plot' options term $ map (Function3D [] []) fs
 
 -- | A list of tuples can be plotted directly using 'plot'
