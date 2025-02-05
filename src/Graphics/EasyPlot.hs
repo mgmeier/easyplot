@@ -177,7 +177,7 @@ instance (Fractional x, Enum x, Show x, Fractional y, Enum y, Show y, Num z, Sho
 instance (Fractional x, Enum x, Show x, Fractional y, Enum y, Show y, Num z, Show z) => Plot [Graph3D x y z] where
     plot' options term graphs = exec options [toString term] "splot" options' datasources
         where   (options', datasources) = unzip $ map prepare graphs
-                prepare (Gnuplot3D  opt opt3d g) = (opts $ sanitize opt, Right $ g)
+                prepare (Gnuplot3D  opt opt3d g) = (opts $ sanitize opt, Right g)
                 prepare (Data3D     opt opt3d d) = (opts $ sanitize opt, Left  $ toString d)
                 prepare (Function3D opt opt3d f) = (opt', Left $ plotData)
                     where   (opt', plotData) = render3D opt opt3d f
