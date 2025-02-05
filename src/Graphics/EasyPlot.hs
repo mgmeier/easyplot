@@ -324,7 +324,7 @@ exec options preamble plotfunc plotops datasets
             plotcmd  = foldl1  (\x y -> x ++ "; " ++ y)
                                (preamble ++ [plotfunc ++ " " ++ plotstmt])
         
-            args = ["-e", plotcmd] ++ if Interactive `elem` options then ["-"] else []
+            args = ["-e", plotcmd] ++ ["-" | Interactive `elem` options]
 
         if Debug `elem` options then putStrLn plotcmd else return ()
 
