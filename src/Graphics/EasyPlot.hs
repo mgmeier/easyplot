@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, TypeSynonymInstances, IncoherentInstances #-}
+{-# LANGUAGE FlexibleInstances, IncoherentInstances #-}
 
 -- | A simple wrapper to the gnuplot command line utility.
 --
