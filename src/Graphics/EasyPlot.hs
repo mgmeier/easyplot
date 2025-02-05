@@ -166,7 +166,7 @@ instance (Fractional x, Enum x, Show x, Num y, Show y) => Plot [Graph2D x y] whe
         where   (options', datasources) = unzip $ map prepare graphs
                 prepare (Gnuplot2D  opt opt2d g) = (opts $ sanitize opt, Right g)
                 prepare (Data2D     opt opt2d d) = (opts $ sanitize opt, Left  $ toString d)
-                prepare (Function2D opt opt2d f) = (opt', Left $ plotData)
+                prepare (Function2D opt opt2d f) = (opt', Left plotData)
                     where   (opt', plotData) = render2D opt opt2d f
 
 -- | 'plot' can be used to plot a single 'Graph3D'.
