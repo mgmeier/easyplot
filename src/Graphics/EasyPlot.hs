@@ -226,7 +226,7 @@ render2D opt opt2d f = (opts $ sanitize (opt ++ [Style Lines]), plot2D f)
             sx       = x1 + step opt2d
 
 -- | INTERNAL: Prepares 3D plots of haskell functions.
-render3D opt opt3d f = (opts $ sanitize (opt), plot3D f)
+render3D opt opt3d f = (opts $ sanitize opt, plot3D f)
     where   plot3D f = toString [(x, y, f x y) | x <- xs, y <- ys]
 
             xs = maybe [x1,sx..x2] id $ forX opt3d
