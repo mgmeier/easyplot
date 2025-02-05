@@ -328,9 +328,7 @@ exec options preamble plotfunc plotops datasets
 
         when (Debug `elem` options) do putStrLn plotcmd
 
-        exitCode <- rawSystem "gnuplot" args
-
-        return $ exitCode == ExitSuccess
+        rawSystem "gnuplot" args <&> (== ExitSuccess)
 
 -- | INTERNAL: Provides 'toString' for translating haskell types into gnuplot commands
 --   (ordinary strings)
