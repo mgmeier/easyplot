@@ -360,7 +360,7 @@ instance GnuplotIdiom Option where
 instance GnuplotIdiom x => GnuplotIdiom [x] where
     toString = unlines . map toString
 
-instance GnuplotIdiom (TerminalType) where
+instance GnuplotIdiom TerminalType where
     toString t = case t of
         PNG f   -> "set term png; set output \"" ++ f ++ "\""
         PDF f   -> "set term pdf enhanced; set output \"" ++ f ++ "\""
