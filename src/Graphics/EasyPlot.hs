@@ -58,10 +58,12 @@ module Graphics.EasyPlot (
 
     ) where
 
+import Prelude hiding (head)
 import Numeric (showHex)
 import Data.Char (toUpper)
-import Data.List (sortBy, nubBy)
+import Data.List (sortBy)
 import Data.Maybe (fromMaybe)
+import Data.List.NonEmpty (groupBy, head)
 import System.Cmd (rawSystem)
 import System.Exit (ExitCode (ExitSuccess))
 
@@ -273,7 +275,7 @@ stepY (_ : ys) = stepY ys
 
 
 -- | INTERNAL: Sanitizes options given via Graph-Objects
-sanitize = sortBy ord . nubBy dup
+sanitize = map head . groupBy dup . sortBy ord
     where   ord a b
                 | dup a b = EQ
                 | True    = ord' a b
