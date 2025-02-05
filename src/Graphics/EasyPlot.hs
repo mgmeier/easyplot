@@ -61,6 +61,7 @@ module Graphics.EasyPlot (
 import Numeric (showHex)
 import Data.Char (toUpper)
 import Data.List (sortBy, nubBy)
+import Data.Maybe (fromMaybe)
 import System.Cmd (rawSystem)
 import System.Exit (ExitCode (ExitSuccess))
 
@@ -218,8 +219,7 @@ instance Plot [String] where
 
 -- | INTERNAL: Prepares 2D plots of haskell functions.
 render2D opt opt2d f = (opts $ sanitize (opt ++ [Style Lines]), plot2D f)
-    where   plot2D f = toString [(x, f x) | x <- maybe [x1,sx..x2] id $ for opt2d]
-
+    where   plot2D f = toString [(x, f x) | x <- fromMaybe [x1,sx..x2] $ for opt2d]
             (x1, x2) = range opt2d
             sx       = x1 + step opt2d
 
