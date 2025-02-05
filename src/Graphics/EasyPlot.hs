@@ -1,4 +1,4 @@
-{-# LANGUAGE FlexibleInstances, PatternGuards #-}
+{-# LANGUAGE FlexibleInstances, LambdaCase, PatternGuards #-}
 
 -- | A simple wrapper to the gnuplot command line utility.
 --
@@ -60,7 +60,9 @@ module Graphics.EasyPlot (
 
 import Prelude hiding (head)
 import Numeric (showHex)
+import Control.Monad (zipWithM_)
 import Data.Char (toUpper)
+import Data.Functor ((<&>))
 import Data.List (sortBy)
 import Data.Maybe (fromMaybe)
 import Data.List.NonEmpty (groupBy, head)
@@ -308,7 +310,9 @@ exec :: [GnuplotOption] -> [String] -> String -> [String] -> [Either String Stri
 exec options preamble plotfunc plotops datasets
   | filenames <- ["plot" ++ show n ++ ".dat" | n <- [1..length datasets]]
   = do
-        mapM (uncurry writeFile) (zip filenames (map (either id id) datasets))
+        zipWithM_ writeFile filenames $ datasets <&> \case
+              Left  x -> x
+              Right x -> x
 
         let datasources = zipWith (\x y -> either (const (Left x)) Right y) filenames datasets
 
