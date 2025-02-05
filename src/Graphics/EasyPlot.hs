@@ -1,4 +1,7 @@
-{-# LANGUAGE FlexibleInstances, LambdaCase, PatternGuards, ViewPatterns #-}
+{-# LANGUAGE FlexibleInstances #-}
+{-# LANGUAGE LambdaCase        #-}
+{-# LANGUAGE PatternGuards     #-}
+{-# LANGUAGE ViewPatterns      #-}
 
 -- | A simple wrapper to the gnuplot command line utility.
 --
@@ -58,16 +61,16 @@ module Graphics.EasyPlot (
 
     ) where
 
-import Prelude hiding (head)
-import Numeric (showHex)
-import Control.Monad (when, zipWithM_)
-import Data.Char (toUpper)
-import Data.Functor ((<&>))
-import Data.List (sortBy)
-import Data.Maybe (fromMaybe)
-import Data.List.NonEmpty (groupBy, head)
-import System.Process (rawSystem)
-import System.Exit (ExitCode (ExitSuccess))
+import           Control.Monad      (when, zipWithM_)
+import           Data.Char          (toUpper)
+import           Data.Functor       ((<&>))
+import           Data.List          (sortBy)
+import           Data.List.NonEmpty (groupBy, head)
+import           Data.Maybe         (fromMaybe)
+import           Numeric            (showHex)
+import           Prelude            hiding (head)
+import           System.Exit        (ExitCode (ExitSuccess))
+import           System.Process     (rawSystem)
 
 -- | TerminalType determines where the output of gnuplot should go.
 data TerminalType = Aqua    -- ^ Output on Mac OS X (Aqua Terminal).
@@ -238,42 +241,42 @@ render3D opt opt3d f = (opts $ sanitize opt, plot3D f)
             (sx, sy) = (x1 + stepX opt3d, y1 + stepY opt3d)
 
 
-for [] = Nothing
+for []             = Nothing
 for ((For xs) : _) = Just xs
-for (_ : xs) = for xs
+for (_ : xs)       = for xs
 
-range [] = (-5, 5)
+range []                  = (-5, 5)
 range ((Range x1 x2) : _) = (x1, x2)
-range (_ : xs) = range xs
+range (_ : xs)            = range xs
 
-step [] = 0.05
+step []             = 0.05
 step ((Step x) : _) = x
-step (_ : xs) = step xs
+step (_ : xs)       = step xs
 
 
-forX [] = Nothing
+forX []              = Nothing
 forX ((ForX xs) : _) = Just xs
-forX (_ : xs) = forX xs
+forX (_ : xs)        = forX xs
 
-forY [] = Nothing
+forY []              = Nothing
 forY ((ForY ys) : _) = Just ys
-forY (_ : ys) = forY ys
+forY (_ : ys)        = forY ys
 
-rangeX [] = (-5, 5)
+rangeX []                   = (-5, 5)
 rangeX ((RangeX x1 x2) : _) = (x1, x2)
-rangeX (_ : xs) = rangeX xs
+rangeX (_ : xs)             = rangeX xs
 
-rangeY [] = (-5, 5)
+rangeY []                   = (-5, 5)
 rangeY ((RangeY y1 y2) : _) = (y1, y2)
-rangeY (_ : ys) = rangeY ys
+rangeY (_ : ys)             = rangeY ys
 
-stepX [] = 0.1
+stepX []              = 0.1
 stepX ((StepX x) : _) = x
-stepX (_ : xs) = stepX xs
+stepX (_ : xs)        = stepX xs
 
-stepY [] = 0.1
+stepY []              = 0.1
 stepY ((StepY y) : _) = y
-stepY (_ : ys) = stepY ys
+stepY (_ : ys)        = stepY ys
 
 
 -- | INTERNAL: Sanitizes options given via Graph-Objects
@@ -293,8 +296,8 @@ sanitize = map head . groupBy dup . sortBy ord
             dup _ _                 = False
 
 -- | INTERNAL: Translates options into gnuplot commands
-opts [] = ""
-opts [x] = toString x
+opts []     = ""
+opts [x]    = toString x
 opts (x:xs) = toString x ++ " " ++ opts xs
 
 -- | INTERNAL: Invokes gnuplot.
@@ -323,7 +326,7 @@ exec options preamble plotfunc plotops datasets
             plotstmt = foldl1  (\x y -> x ++ ", " ++ y) plotcmds
             plotcmd  = foldl1  (\x y -> x ++ "; " ++ y)
                                (preamble ++ [plotfunc ++ " " ++ plotstmt])
-        
+
             args = ["-e", plotcmd] ++ ["-" | Interactive `elem` options]
 
         when (Debug `elem` options) do putStrLn plotcmd
@@ -345,10 +348,10 @@ space x = ' ' : x
 
 instance GnuplotIdiom Style where
     toString x = case x of
-        Lines   -> "with lines"
-        Points  -> "with points"
-        Dots    -> "with dots"
-        Impulses -> "with impulses"
+        Lines       -> "with lines"
+        Points      -> "with points"
+        Dots        -> "with dots"
+        Impulses    -> "with impulses"
         Linespoints -> "with linespoints"
 
 instance GnuplotIdiom Option where
@@ -378,28 +381,28 @@ instance GnuplotIdiom Color where
     toString (RGB (showHex -> r) (showHex -> g) (showHex -> b))
       = ('#' :) . (toUpper <$>) . r . g . b $ ""
     toString color = case color of
-        Red -> "red"
-        Blue -> "blue"
-        Green -> "green"
-        Yellow -> "yellow"
-        Orange -> "orange"
-        Magenta -> "magenta"
-        Cyan -> "cyan"
-        DarkRed -> "dark-red"
-        DarkBlue -> "dark-blue"
-        DarkGreen -> "dark-green"
-        DarkYellow -> "dark-yellow"
-        DarkOrange -> "dark-orange"
-        DarkMagenta -> "aark-magenta"
-        DarkCyan -> "dark-cyan"
-        LightRed -> "light-red"
-        LightBlue -> "light-blue"
-        LightGreen -> "light-green"
+        Red          -> "red"
+        Blue         -> "blue"
+        Green        -> "green"
+        Yellow       -> "yellow"
+        Orange       -> "orange"
+        Magenta      -> "magenta"
+        Cyan         -> "cyan"
+        DarkRed      -> "dark-red"
+        DarkBlue     -> "dark-blue"
+        DarkGreen    -> "dark-green"
+        DarkYellow   -> "dark-yellow"
+        DarkOrange   -> "dark-orange"
+        DarkMagenta  -> "aark-magenta"
+        DarkCyan     -> "dark-cyan"
+        LightRed     -> "light-red"
+        LightBlue    -> "light-blue"
+        LightGreen   -> "light-green"
         LightMagenta -> "light-magenta"
-        Violet -> "violet"
-        Grey -> "grey"
-        White -> "white"
-        Brown -> "brown"
-        DarkGrey -> "dark-grey"
-        Black -> "black"
+        Violet       -> "violet"
+        Grey         -> "grey"
+        White        -> "white"
+        Brown        -> "brown"
+        DarkGrey     -> "dark-grey"
+        Black        -> "black"
 
