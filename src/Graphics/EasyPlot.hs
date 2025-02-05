@@ -374,7 +374,7 @@ instance GnuplotIdiom TerminalType where
         Windows -> "set term windows"
         X11     -> "set term x11 persist"
 
-instance GnuplotIdiom (Color) where
+instance GnuplotIdiom Color where
     toString (RGB r g b) = '#' : map toUpper (showHex r $ showHex g $ showHex b "")
     toString color = case color of
         Red -> "red"
